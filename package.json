@@ -4,17 +4,22 @@
   "description": "",
   "main": "lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node lib/index.js"
   },
   "author": "Michał Wadas <michalwadas@gmail.com>",
   "license": "MIT",
   "devDependencies": {
     "chai": "^4.1.2",
-    "eslint": "^4.15.0",
-    "mocha": "^4.1.0"
+    "eslint": "5.6.0",
+    "mocha": "^5.2.0"
   },
   "dependencies": {
+    "@material-ui/core": "^3.2.0",
+    "bluebird": "^3.5.2",
     "express": "^4.16.2",
-    "express-basic-auth": "^1.1.3"
+    "express-basic-auth": "^1.1.3",
+    "lodash": "^4.17.11",
+    "stats-lite": "^2.2.0"
   }
 }

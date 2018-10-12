@@ -1,0 +1,28 @@
+.PingsChart {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.PingsChart table {
+    border-collapse: collapse;
+    border: transparent 2px solid;
+    margin: 0 auto;
+}
+
+.PingsChart td {
+    border: #DDD 1px solid;
+    padding: 0.4em;
+}
+
+.PingsChart td.host {
+    text-align: right;
+}
+
+.PingsChart thead {
+    font-weight: bold;
+    background-color: #FDD;
+}
+
+.PingsChart tr:hover {
+    background-color: #FAFAFA;
+}

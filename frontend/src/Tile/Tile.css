@@ -1,0 +1,9 @@
+.Tile {
+    border: 5px transparent solid;
+    transition: border-color 3s;
+    padding: 0.5em;
+}
+
+.Tile:hover {
+    border-color: #DDD;
+}
