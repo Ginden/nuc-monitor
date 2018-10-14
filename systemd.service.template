@@ -1,0 +1,14 @@
+[Unit]
+Description=%DESCRIPTION%
+
+[Service]
+ExecStart=node %APP_PATH%/server.js
+Restart=always
+User=nobody
+Group=nogroup
+Environment=PATH=/usr/bin:/usr/local/bin
+Environment=NODE_ENV=production
+WorkingDirectory=%APP_PATH%
+
+[Install]
+WantedBy=multi-user.target

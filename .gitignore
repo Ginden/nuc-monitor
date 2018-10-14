@@ -1,3 +1,5 @@
 node_modules
 coverage/home/ginden
 package-lock.json
+
+*.service

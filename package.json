@@ -1,11 +1,12 @@
 {
   "name": "nuc-monitor",
   "version": "1.0.0",
-  "description": "",
+  "description": "Simple monitoring WWW",
   "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node lib/index.js"
+    "start": "node lib/index.js",
+    "build": "./build.sh"
   },
   "author": "Michał Wadas <michalwadas@gmail.com>",
   "license": "MIT",
