@@ -7,6 +7,10 @@
 PACKAGE=$(./build-systemd.js)
 APP_NAME=$(jq -r .name package.json)
 
+id -u $APP_NAME &>/dev/null || sudo useradd $APP_NAME;
+
+sudo groupadd $APP_NAME || true;
+
 sudo /bin/cp $PACKAGE /etc/systemd/system;
 
 sudo systemctl stop $APP_NAME
@@ -18,7 +22,3 @@ sudo systemctl start $APP_NAME
 echo "Run 'sudo systemctl enable $APP_NAME' to start application on boot";
 
 
-# Unix-style newlines with a newline ending every file
-[*]
-end_of_line = lf
-insert_final_newline = true

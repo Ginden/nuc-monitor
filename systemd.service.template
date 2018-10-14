@@ -2,11 +2,11 @@
 Description=%DESCRIPTION%
 
 [Service]
-ExecStart=node %APP_PATH%/server.js
+ExecStart=/usr/bin/node %APP_PATH%/server.js
 Restart=always
-User=nobody
-Group=nogroup
-Environment=PATH=/usr/bin:/usr/local/bin
+User=%APP_NAME%
+Group=%APP_NAME%
+Environment=PATH=%PATH%
 Environment=NODE_ENV=production
 WorkingDirectory=%APP_PATH%
 
