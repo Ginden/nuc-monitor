@@ -4,15 +4,15 @@ import Tile from '../Tile/Tile.js';
 import {
     getFortune,
     getPings,
-    uptime,
-    ips
+    ips,
+    whoami
 } from '../services.js';
 
 const tiles = [
     ['Fortune', getFortune],
     ['Pings', getPings],
-    ['Uptime', uptime],
-    ['IP', ips]
+    ['IP', ips],
+    ['whoami', whoami]
 ];
 
 class App extends Component {

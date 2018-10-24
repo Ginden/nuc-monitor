@@ -3,9 +3,6 @@ import {toPairs, sortBy} from 'lodash-es';
 import './PingsChart.css'
 
 class PingsChart extends React.Component {
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         const {summary} = this.props.data;
