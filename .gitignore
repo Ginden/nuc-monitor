@@ -3,3 +3,4 @@ coverage/home/ginden
 package-lock.json
 
 *.service
+.env
