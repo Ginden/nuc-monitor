@@ -13,3 +13,28 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+
+.sensors-table {
+  border-collapse: collapse;
+  border: transparent 2px solid;
+  margin: 0 auto;
+}
+
+.sensors-table td {
+  border: #DDD 1px solid;
+  padding: 0.4em;
+}
+
+.sensors-table td.host {
+  text-align: right;
+}
+
+.sensors-table thead {
+  font-weight: bold;
+  background-color: #FDD;
+}
+
+.sensors-table tr:hover {
+  background-color: #FAFAFA;
+}

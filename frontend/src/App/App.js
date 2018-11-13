@@ -5,14 +5,16 @@ import {
     getFortune,
     getPings,
     ips,
-    whoami
+    whoami,
+    sensors
 } from '../services.js';
 
 const tiles = [
     ['Fortune', getFortune],
     ['Pings', getPings],
     ['IP', ips],
-    ['whoami', whoami]
+    ['whoami', whoami],
+    ['Sensors', sensors]
 ];
 
 class App extends Component {
