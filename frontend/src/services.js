@@ -6,12 +6,6 @@ import {
     flattenDeep
 } from 'lodash-es';
 
-export async function getFortune() {
-    return fetch('/fortune')
-        .then(r => r.json())
-        .then(s => <pre>{s}</pre>)
-}
-
 export async function getPings() {
     return fetch('/pings')
         .then(r => r.json())
