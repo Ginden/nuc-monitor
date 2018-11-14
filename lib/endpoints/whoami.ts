@@ -1,8 +1,12 @@
 'use strict';
 
-const {
+
+import {
     exec
-} = require('./../utils');
+} from '../utils';
+
+import {Promise} from 'bluebird';
+
 const {
     userInfo,
     arch,
@@ -40,25 +44,25 @@ const {
     pick
 } = require('lodash');
 
-const Promise = require('bluebird');
-const P = z => Promise.resolve(z);
+function execValue(cmd: string) {
+    return Promise.resolve(exec(cmd))
+        .get('stdout')
+        .catch((err: Error) => ({
+            error: err.message,
+            stack: err.stack
+        }));
+}
 
 module.exports = async function () {
     return Promise.props(Object.assign({
-        whoami: errorAsValue(P(exec('whoami')).get('stdout')),
+        whoami: execValue('whoami'),
         env: pick(process.env, ['HOME', 'PWD', 'USER', 'LOGNAME', 'LANG']),
-        id: errorAsValue(P(exec('id')).get('stdout')),
-        groups: errorAsValue(P(exec('groups')).get('stdout')),
-        uptime: (await exec('uptime -p')).stdout
+        id: execValue('id'),
+        groups: execValue('groups'),
+        uptime: execValue('uptime -p')
     }, values));
 };
 
-function errorAsValue(p) {
-    return p.catch(err => ({
-        error: err.message
-    }))
-}
-
-function memoryToHumanReadable(bytes) {
+function memoryToHumanReadable(bytes: number) : string {
     return (bytes/(1024*1024)).toFixed(1).concat('MB');
 }

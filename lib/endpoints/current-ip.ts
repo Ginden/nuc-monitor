@@ -1,8 +1,8 @@
 'use strict';
 
-const {
+import {
     exec
-} = require('./../utils');
+} from '../utils';
 
 module.exports = async function () {
     const externalIpPromise = exec('wget -qO- ipecho.net/plain');

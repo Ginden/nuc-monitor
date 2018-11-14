@@ -1,20 +1,18 @@
 'use strict';
 
-const {
+import {
     exec
-} = require('./../utils');
-const {
-    networkInterfaces,
-} = require('os');
+} from '../utils';
+
+import {
+    networkInterfaces
+} from 'os';
+
+import {Promise} from 'bluebird';
+import _ = require('lodash');
 
 
-
-const _ = require('lodash');
-
-const Promise = require('bluebird');
-const P = z => Promise.resolve(z);
-
-const flattenNmapOutput = arr => _(arr)
+const flattenNmapOutput = (arr: Array<{stdout: string}>) => _(arr)
     .map('stdout')
     .map(s => s.split('\n'))
     .flatten()
@@ -47,13 +45,3 @@ module.exports = async function () {
     };
 
 };
-
-function errorAsValue(p) {
-    return p.catch(err => ({
-        error: err.message
-    }))
-}
-
-function memoryToHumanReadable(bytes) {
-    return (bytes/(1024*1024)).toFixed(1).concat('MB');
-}

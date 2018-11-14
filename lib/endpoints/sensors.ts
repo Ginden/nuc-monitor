@@ -1,29 +1,29 @@
 'use strict';
 
-const {
+import {
     exec,
     dictionary
-} = require('./../utils');
+} from '../utils';
 
 module.exports = async function () {
     const {stdout} = await exec('sensors -u -A');
     return parseSensorsOutput(stdout);
 };
 
-function parseSensorsOutput(output) {
+function parseSensorsOutput(output: string) {
     const lines = output
         .split('\n')
         .map(e => e.trimRight());
     const groups = dictionary();
-    let currentGroup;
-    let currentDevice;
+    let currentGroup = '';
+    let currentDevice = '';
     for(const line of lines) {
         if (!currentGroup) {
             currentGroup = line;
             groups[currentGroup] = dictionary();
         } else if (line === '') {
-            currentGroup = null;
-            currentDevice = null;
+            currentGroup = '';
+            currentDevice = '';
         } else if (line.startsWith('Adapter:')) {
             continue;
         } else if (line.endsWith(':')) {

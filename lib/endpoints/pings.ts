@@ -1,10 +1,17 @@
 'use strict';
 
-const {
+import {
     exec
-} = require('./../utils');
-const _ = require('lodash');
-const stats = require("stats-lite");
+} from '../utils';
+import _ = require('lodash');
+import stats = require('stats-lite');
+
+
+type ParsedPingLine = {
+    time: string;
+    host: string;
+    timeTook: number;
+};
 
 module.exports = async function () {
     const todaysDateFileName = (await exec('date -u +%Y.%m.%d')).stdout.trim();
@@ -25,18 +32,18 @@ module.exports = async function () {
     };
 };
 
-function parseCustomPings(output) {
+function parseCustomPings(output: string) : Array<ParsedPingLine> {
     return output
         .split('\n')
         .filter(Boolean)
-        .map(line => {
+        .map((line : string) => {
             const time = line.slice(0, 5);
             const [hour, minute] = time.split(':').map(Number);
             const normalizedMinute = minute - minute % 5; // If execution took more than minute, round it
             const pingOutput = line.slice('00:25:13 64 bytes from '.length);
             const [host] = pingOutput.split(':', 1);
             try {
-                const [, timeTook] = pingOutput.match(/time=(\d*(\.\d)?)/);
+                const [, timeTook] = pingOutput.match(/time=(\d*(\.\d)?)/) || '';
                 return {
                     time: `${hour}:${normalizedMinute}`,
                     host,
@@ -50,29 +57,33 @@ function parseCustomPings(output) {
         });
 }
 
-function summarise(values) {
+function summarise(values: Array<ParsedPingLine>) {
     const hosts = _.groupBy(values, 'host');
     return _.mapValues(hosts, (arr, ip) => {
         const rawValues = _.map(arr, 'timeTook');
-        const fromTime = _.first(arr).time;
-        const toTime = _.last(arr).time;
+        const fromTime = _.first(arr)!.time;
+        const toTime = _.last(arr)!.time;
         return {
             ip,
             dateRange: `${fromTime} - ${toTime}`,
-            mean: roundPrecise(stats.mean(rawValues), 1),
-            median: roundPrecise(stats.median(rawValues), 1),
-            variance: roundPrecise(stats.variance(rawValues), 1),
-            standardDeviation: roundPrecise(stats.stdev(rawValues), 1),
+            mean: round1(stats.mean(rawValues)),
+            median: round1(stats.median(rawValues)),
+            variance: round1(stats.variance(rawValues)),
+            standardDeviation: round1(stats.stdev(rawValues)),
             probesCount: rawValues.length,
             percentiles: {
-                50: roundPrecise(stats.percentile(rawValues, 0.5), 1),
-                90: roundPrecise(stats.percentile(rawValues, 0.9), 1),
-                99: roundPrecise(stats.percentile(rawValues, 0.99), 1),
+                50: round1(stats.percentile(rawValues, 0.5)),
+                90: round1(stats.percentile(rawValues, 0.9)),
+                99: round1(stats.percentile(rawValues, 0.99)),
             }
         }
     });
 }
 
-function roundPrecise(number, precision) {
+function round1(number: number) : number {
+    return roundPrecise(number, 1);
+}
+
+function roundPrecise(number: number, precision: number) : number {
     return Number(number.toFixed(precision));
 }

@@ -2,6 +2,8 @@
 
 (yarn || npm install);
 
+(yarn build:ts || npm run build:ts)
+
 (cd frontend && (yarn || npm install) && (yarn build || npm run build));
 
 PACKAGE=$(./build-systemd.js)

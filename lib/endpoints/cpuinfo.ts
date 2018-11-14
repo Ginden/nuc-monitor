@@ -1,15 +1,15 @@
 'use strict';
 
-const {
+import {
     exec,
     dictionary
-} = require('./../utils');
+} from "../utils";
 
 module.exports = async function () {
     const cpuOutput = (await exec('cat /proc/cpuinfo')).stdout;
     return cpuOutput
         .split('\n\n')
-        .map(core => {
+        .map((core : string) => {
             const props = core.split('\n');
             const obj = dictionary();
             props
