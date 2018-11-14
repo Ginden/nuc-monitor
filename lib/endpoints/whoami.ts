@@ -1,13 +1,12 @@
 'use strict';
 
-
 import {
     exec
 } from '../utils';
 
 import {Promise} from 'bluebird';
 
-const {
+import {
     userInfo,
     arch,
     freemem,
@@ -16,8 +15,11 @@ const {
     platform,
     release,
     totalmem,
-} = require('os');
-const _ = require('lodash');
+} from 'os';
+import {
+    omit,
+    pick
+} from 'lodash';
 
 const values = {
     userInfo: userInfo(),
@@ -33,16 +35,12 @@ const values = {
     network: {
         hostname: hostname(),
         get interfaces() {
-            return _.omit(networkInterfaces(), ['lo']);
+            return omit(networkInterfaces(), ['lo']);
         }
     },
     platform: platform(),
     release: release()
 };
-
-const {
-    pick
-} = require('lodash');
 
 function execValue(cmd: string) {
     return Promise.resolve(exec(cmd))
@@ -53,16 +51,17 @@ function execValue(cmd: string) {
         }));
 }
 
-module.exports = async function () {
-    return Promise.props(Object.assign({
+module.exports = async function() {
+    return Promise.props({
         whoami: execValue('whoami'),
         env: pick(process.env, ['HOME', 'PWD', 'USER', 'LOGNAME', 'LANG']),
         id: execValue('id'),
         groups: execValue('groups'),
-        uptime: execValue('uptime -p')
-    }, values));
+        uptime: execValue('uptime -p'),
+        ...values
+    });
 };
 
-function memoryToHumanReadable(bytes: number) : string {
-    return (bytes/(1024*1024)).toFixed(1).concat('MB');
+function memoryToHumanReadable(bytes: number): string {
+    return (bytes / (1024 * 1024)).toFixed(1).concat('MB');
 }

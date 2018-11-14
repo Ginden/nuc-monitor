@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node lib/index.js",
     "build": "./build.sh",
-    "build:ts": "tsc"
+    "build:ts": "tsc",
+    "lint": "tslint -c tslint.json 'lib/**/*.ts' && eslint 'lib/**/*.ts'"
   },
   "author": "Michał Wadas <michalwadas@gmail.com>",
   "license": "MIT",

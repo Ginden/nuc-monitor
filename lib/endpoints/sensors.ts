@@ -5,7 +5,7 @@ import {
     dictionary
 } from '../utils';
 
-module.exports = async function () {
+module.exports = async function() {
     const {stdout} = await exec('sensors -u -A');
     return parseSensorsOutput(stdout);
 };
@@ -13,11 +13,11 @@ module.exports = async function () {
 function parseSensorsOutput(output: string) {
     const lines = output
         .split('\n')
-        .map(e => e.trimRight());
+        .map((e) => e.trimRight());
     const groups = dictionary();
     let currentGroup = '';
     let currentDevice = '';
-    for(const line of lines) {
+    for (const line of lines) {
         if (!currentGroup) {
             currentGroup = line;
             groups[currentGroup] = dictionary();
@@ -29,8 +29,8 @@ function parseSensorsOutput(output: string) {
         } else if (line.endsWith(':')) {
             currentDevice = line.slice(0, -1);
             groups[currentGroup][currentDevice] = dictionary();
-        } else if(line.startsWith('  ' /* Two spaces */)) {
-            const withoutPrefix = line.slice(line.indexOf('_')+1);
+        } else if (line.startsWith('  ' /* Two spaces */)) {
+            const withoutPrefix = line.slice(line.indexOf('_') + 1);
             const [name, temperature] = withoutPrefix.split(': ');
             groups[currentGroup][currentDevice][name] = Number(temperature);
         }
@@ -38,4 +38,3 @@ function parseSensorsOutput(output: string) {
     delete groups[''];
     return groups;
 }
-

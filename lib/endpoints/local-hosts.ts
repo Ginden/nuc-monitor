@@ -11,15 +11,14 @@ import {
 import {Promise} from 'bluebird';
 import _ = require('lodash');
 
-
 const flattenNmapOutput = (arr: Array<{stdout: string}>) => _(arr)
     .map('stdout')
-    .map(s => s.split('\n'))
+    .map((s) => s.split('\n'))
     .flatten()
     .map(_.unary(_.trim))
     .filter(Boolean);
 
-module.exports = async function () {
+module.exports = async function() {
     const networks = _(networkInterfaces())
         .omit(['lo'])
         .values()
@@ -33,10 +32,9 @@ module.exports = async function () {
         .value();
 
     const hosts = await Promise.resolve(cidrs)
-        .map(cidr => exec(`nmap ${cidr} -n -sP --min-parallelism 10 | grep report | awk '{print $5}'`))
+        .map((cidr) => exec(`nmap ${cidr} -n -sP --min-parallelism 10 | grep report | awk '{print $5}'`))
         .then(flattenNmapOutput)
-        .filter(ip => !(myIps.has(ip)));
-
+        .filter((ip) => !(myIps.has(ip)));
 
     return {
         cidrs,
