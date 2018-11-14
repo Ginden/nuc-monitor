@@ -10,8 +10,8 @@ import {
 } from '../services.js';
 
 const tiles = [
-    ['Pings', getPings],
     ['IP', ips],
+    ['Pings', getPings],
     ['whoami', whoami],
     ['Sensors', sensors]
 ];
